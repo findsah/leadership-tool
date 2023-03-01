@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from qandA.models import Question,Answer,Plan,UserProfile,UserSegment,Membership,Response,Subscription,User,LeadershipType
+admin.site.register(Question)
+admin.site.register(Answer)
+admin.site.register(Plan)
+admin.site.register(UserProfile)
+admin.site.register(UserSegment)
+admin.site.register(Membership)
+admin.site.register(Response)
+admin.site.register(Subscription)
+admin.site.register(User)
+admin.site.register(LeadershipType)
+
