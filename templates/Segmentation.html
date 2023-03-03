@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Segmentation Tool</h1>
+<form id="segmentation-form" method="post" action="{% url 'segmentation_results' %}">
+  {% csrf_token %}
+  {% for question in questions %}
+  <div class="form-group">
+    <h4>{{ question }}</h4>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="{{ question.id }}" id="{{ question.id }}-1" value="SD">
+      <label class="form-check-label" for="{{ question.id }}-1">
+        Strongly Disagree
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="{{ question.id }}" id="{{ question.id }}-2" value="D">
+      <label class="form-check-label" for="{{ question.id }}-2">
+        Disagree
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="{{ question.id }}" id="{{ question.id }}-3" value="N">
+      <label class="form-check-label" for="{{ question.id }}-3">
+        Neutral
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="{{ question.id }}" id="{{ question.id }}-4" value="A">
+      <label class="form-check-label" for="{{ question.id }}-4">
+        Agree
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="{{ question.id }}" id="{{ question.id }}-5" value="SA">
+      <label class="form-check-label" for="{{ question.id }}-5">
+        Strongly Agree
+      </label>
+    </div>
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

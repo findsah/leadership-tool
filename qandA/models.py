@@ -6,26 +6,43 @@ class Question(models.Model):
     question_text = models.TextField()
 
 
-class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    value = models.CharField(max_length=255, choices=(
-        ('sd', 'Strongly Disagree'),
-        ('d', 'Disagree'),
-        ('n', 'Neither agree nor disagree'),
-        ('a', 'Agree'),
-        ('sa', 'Strongly Agree')
-    ))
+class Segment(models.Model):
+    name = models.CharField(max_length=255)
+    intercept = models.FloatField()
 
     def __str__(self):
-        return f'{self.user} - {self.question} - {self.value}'
+        return self.name
+
+
+# class Answer(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     value = models.CharField(max_length=255, choices=(
+#         ('sd', 'Strongly Disagree'),
+#         ('d', 'Disagree'),
+#         ('n', 'Neither agree nor disagree'),
+#         ('a', 'Agree'),
+#         ('sa', 'Strongly Agree')
+#     ))
+#
+#     def __str__(self):
+#         return f'{self.user} - {self.question} - {self.value}'
 
 
 class Response(models.Model):
     user_id = models.IntegerField()
+    ANSWER_CHOICES = [
+        ('SD', 'Strongly Disagree'),
+        ('D', 'Disagree'),
+        ('N', 'Neither Agree Nor Disagree'),
+        ('A', 'Agree'),
+        ('SA', 'Strongly Agree'),
+    ]
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    answer = models.CharField(max_length=2, choices=ANSWER_CHOICES)
+
+    def __str__(self):
+        return f"{self.question}: {self.get_answer_display()}"
 
 
 class LeadershipType(models.Model):
@@ -43,6 +60,7 @@ class UserSegment(models.Model):
 
     def __str__(self):
         return f'{self.user_id} - {self.leadership_type}'
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -80,4 +98,3 @@ class Membership(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.membership_type}'
-
