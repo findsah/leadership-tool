@@ -1,0 +1,65 @@
+[
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A business leader must always prioritize actions that improve return on invested capital, above any other outcome"
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A leader is only as good as the technical knowledge they bring to the business"
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"Asking for help signals that you don't know how to do your job      "
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  {
+    "model":"api.Question",
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  {
+    "model":"api.Question", 
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  {
+    "model":"api.Question", 
+    "fields":{
+      "question_text":"A business leader can only be evaluated by business performance metrics"
+    }
+  },
+  { "model": "auth.user", 
+        "fields": {
+            "username": "new_admin",
+            "password": "pbkdf2_sha256$10000$vkRy7QauoLLj$ry+3xm3YX+YrSXbri8s3EcXDIrx5ceM+xQjtpLdw2oE=",
+            "is_superuser": true,
+            "is_staff": true,
+            "is_active": true
+        }
+    }
+]

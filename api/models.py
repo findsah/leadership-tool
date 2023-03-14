@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 class Question(models.Model):
     question_text = models.TextField()
-
+    def __str__(self):
+        return self.question_text
 
 class Segment(models.Model):
     name = models.CharField(max_length=255)
@@ -29,7 +30,7 @@ class Segment(models.Model):
 #         return f'{self.user} - {self.question} - {self.value}'
 
 
-class Response(models.Model):
+class UserAnswer(models.Model):
     user_id = models.IntegerField()
     ANSWER_CHOICES = [
         ('SD', 'Strongly Disagree'),
