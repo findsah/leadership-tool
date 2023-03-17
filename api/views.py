@@ -14,6 +14,8 @@ from .serializers import UserSerializer, RegisterSerializer
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
+from django.shortcuts import get_object_or_404
+import json
 # Create your views here.
 
 class QuestionModelViewSet(viewsets.ModelViewSet):
@@ -42,7 +44,6 @@ class ResponseModelViewSet(viewsets.ModelViewSet):
     if data.is_valid():
       data.save()
     return Response({'msg':'Record save Successfully','status':201})
-  
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -71,7 +72,20 @@ class LoggedInUser(generics.RetrieveAPIView):
       permissions.IsAuthenticated
   ]
   serializer_class = UserSerializer
-  # progress=UserAnswer.objects.get(user_id=request.data.get('user_id'), question_id=request.data.get('question'))
-  def get_object(self):
-    # return request.user
+  def get_object(self): 
     return self.request.user 
+
+class ProgressViewSet(viewsets.ViewSet):
+  permission_classes = [      permissions.IsAuthenticated  ]
+  def list(self, request): 
+      return Response(request.data)
+
+  def retrieve(self, request, pk=None):
+    total_q = 30 
+    
+    if pk is not None:
+      completed = UserAnswer.objects.filter(user_id=pk).count()
+      last_q = UserAnswer.objects.filter(user_id=pk).last().question_id 
+      
+      per=int((completed*100)/total_q)
+      return Response({'completed_percentage':per,'completed_question':completed,'question_left':total_q-completed, "last_completed_question":last_q})

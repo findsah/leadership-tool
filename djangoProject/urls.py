@@ -3,29 +3,31 @@ from django.urls import include, path
 from django.shortcuts import redirect
 from api import views
 from rest_framework.routers import DefaultRouter
-# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView 
 
-# from api.views import RegisterAPI, LoginAPI, LoggedInUser
-# from knox import views as knox_views 
+from api.views import RegisterAPI, LoginAPI, LoggedInUser, ProgressViewSet
+from knox import views as knox_views 
 
 router=DefaultRouter()
 
 router.register('question_api', views.QuestionModelViewSet, basename='question')
 
 router.register('response_api', views.ResponseModelViewSet, basename='response')
+router.register('user_progress_api', views.ProgressViewSet, basename='user_progress')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include(router.urls)),
-    # path('get_token/',TokenObtainPairView.as_view(),name='get_token'),
-    # path('refresh_token/',TokenRefreshView.as_view(),name='refresh_token'),
-    # path('verify_token/',TokenVerifyView.as_view(),name='verify_token'),
-    # path('api/register/', RegisterAPI.as_view(), name='register'),
+    path('get_token/',TokenObtainPairView.as_view(),name='get_token'),
+    path('refresh_token/',TokenRefreshView.as_view(),name='refresh_token'),
+    path('verify_token/',TokenVerifyView.as_view(),name='verify_token'),
+    path('api/register/', RegisterAPI.as_view(), name='register'),
 
-    # path('api/auth/user', LoggedInUser.as_view()),
+    path('api/auth/user', LoggedInUser.as_view()),
 
-    # path('api/login/', LoginAPI.as_view(), name='login'),
-    # path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
-    # path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    path('api/login/', LoginAPI.as_view(), name='login'),
+    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
+    path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+
 ]
 
