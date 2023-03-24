@@ -21,8 +21,8 @@ import json
 class QuestionModelViewSet(viewsets.ModelViewSet):
   queryset=Question.objects.all()
   serializer_class=QuestionSerializer
-  authentication=[JWTAuthentication]
-  permission_classes=[IsAuthenticated]
+  # authentication=[JWTAuthentication]
+  # permission_classes=[IsAuthenticated]
   http_method_names = ['get']
 
 class ResponseModelViewSet(viewsets.ModelViewSet):
