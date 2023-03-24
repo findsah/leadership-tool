@@ -90,10 +90,10 @@ DATABASES = {
 #         'default': {
 #          'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #          'NAME': 'membershipplatform',
-#          'USER': 'postgres',
-#          'PASSWORD': 'ilfaz786',
-#          'HOST': '127.0.0.1',
-#          'PORT': '5432',
+#          'USER': 'doadmin',
+#          'PASSWORD': 'AVNS_xfsno6fa60cd7Kw_yoS',
+#          'HOST': 'db-postgresql-lon1-01466-do-user-13456843-0.b.db.ondigitalocean.com',
+#          'PORT': '25060',
 #       }
 #   }
 
