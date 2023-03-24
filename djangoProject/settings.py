@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'LeadershipQuestionnare.apps.LeadershipquestionnareConfig',
     'api',
     'rest_framework',
-    'knox'
+    'knox',
+    'corsheaders'
     
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,22 +82,22 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 #
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-# DATABASES= {
-#         'default': {
-#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#          'NAME': 'membershipplatform',
-#          'USER': 'doadmin',
-#          'PASSWORD': 'AVNS_xfsno6fa60cd7Kw_yoS',
-#          'HOST': 'db-postgresql-lon1-01466-do-user-13456843-0.b.db.ondigitalocean.com',
-#          'PORT': '25060',
-#       }
-#   }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+DATABASES= {
+        'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'defaultdb',
+         'USER': 'doadmin',
+         'PASSWORD': 'AVNS_xfsno6fa60cd7Kw_yoS',
+         'HOST': 'db-postgresql-lon1-01466-do-user-13456843-0.b.db.ondigitalocean.com',
+         'PORT': '25060',
+      }
+  }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -115,7 +117,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+CORS_ALLOWED_ORIGINS = [
+   'https://walrus-app-xqntt.ondigitalocean.app',
+   "http://localhost:3000",
+    "http://127.0.0.1:8000"
+]
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
