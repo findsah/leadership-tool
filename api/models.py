@@ -33,11 +33,11 @@ class Segment(models.Model):
 class UserAnswer(models.Model):
     user_id = models.IntegerField()
     ANSWER_CHOICES = [
-        ('SD', 'Strongly Disagree'),
-        ('D', 'Disagree'),
-        ('N', 'Neither Agree Nor Disagree'),
-        ('A', 'Agree'),
-        ('SA', 'Strongly Agree'),
+        ('-2', 'Strongly Disagree'),
+        ('-1', 'Disagree'),
+        ('0', 'Neither Agree Nor Disagree'),
+        ('1', 'Agree'),
+        ('2', 'Strongly Agree'),
     ]
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=2, choices=ANSWER_CHOICES)

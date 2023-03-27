@@ -5,7 +5,7 @@ from api import views
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView 
 
-from api.views import RegisterAPI, LoginAPI, LoggedInUser, ProgressViewSet
+from api.views import CalculateLeadershipTypeViewSet, RegisterAPI, LoginAPI, LoggedInUser, ProgressViewSet
 from knox import views as knox_views 
 
 router=DefaultRouter()
@@ -14,6 +14,7 @@ router.register('question_api', views.QuestionModelViewSet, basename='question')
 
 router.register('response_api', views.ResponseModelViewSet, basename='response')
 router.register('user_progress_api', views.ProgressViewSet, basename='user_progress')
+router.register('user_result_api', views.CalculateLeadershipTypeViewSet, basename='user_result')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
