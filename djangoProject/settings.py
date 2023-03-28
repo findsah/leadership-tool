@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'knox',
-    'corsheaders'
+    'corsheaders',
+    'ckeditor',
+    'ckeditor_uploader'
     
 ]
 
@@ -98,6 +100,7 @@ DATABASES= {
          'PORT': '25060',
       }
   }
+ 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -133,8 +136,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -148,3 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = 'uploads/' 

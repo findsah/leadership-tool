@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Question(models.Model):
     question_text = models.TextField()
@@ -47,8 +47,17 @@ class UserAnswer(models.Model):
 
 
 class LeadershipType(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
+    LEADERSHIP_TYPE = [
+                ('Careful Collaborator', 'Careful Collaborator'),
+                ('Methodical Specialist', 'Methodical Specialist'),
+                ('Culture Creator', 'Culture Creator'),
+                ('Intuitive Decider', 'Intuitive Decider'),
+                ('Determined Driver', 'Determined Driver'),
+                ('Collective Adventurer', 'Collective Adventurer'),
+            ]
+    name = models.CharField(max_length=50, choices=LEADERSHIP_TYPE, unique=True)
+    description = RichTextUploadingField()
+    
 
     def __str__(self):
         return self.name

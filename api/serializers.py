@@ -30,7 +30,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
 
         return user
-        
+
+# LeadershipType Serializer
+class LeadershipTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LeadershipType
+        fields = ['name','description'] 
     
 from rest_framework import serializers
 from .models import *

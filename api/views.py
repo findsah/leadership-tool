@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 import json
 from rest_framework import status
 from typing import Dict
+from django.core.serializers import serialize
 # Create your views here.
 
 class QuestionModelViewSet(viewsets.ModelViewSet):
@@ -105,7 +106,12 @@ class CalculateLeadershipTypeViewSet(viewsets.ViewSet):
                 qa_dict = {ans.question.id:ans.answer for ans in completed}
                 # return Response({'data': qa_dict,'status':status.HTTP_200_OK})
                 leadership_type = self.calculate_leadership_type(qa_dict)
-                return Response({'leadership_type':leadership_type, 'msg':'Record fetched successfully ','status':status.HTTP_200_OK})
+                try:
+                    get_leadership=LeadershipType.objects.get(name=leadership_type) 
+                    leadership_data = LeadershipTypeSerializer(instance=get_leadership).data  
+                except LeadershipType.DoesNotExist:
+                    leadership_data={}
+                return Response({'leadership_type':leadership_data, 'msg':'Record fetched successfully ','status':status.HTTP_200_OK})
             return Response({'msg':'Data not available for user','status':status.HTTP_200_OK})
 
     def calculate_leadership_type(self, answers:Dict[int, int]) -> str:
