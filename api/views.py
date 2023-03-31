@@ -2,23 +2,20 @@ from django.core.validators import ip_address_validator_map
 from django.shortcuts import render
 from .models import *
 from .serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 
 from rest_framework import generics, permissions
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
-
-from django.contrib.auth import login
+from .serializers import UserSerializer, RegisterSerializer 
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from knox.views import LoginView as KnoxLoginView
-from django.shortcuts import get_object_or_404
+from knox.views import LoginView as KnoxLoginView 
 import json
 from rest_framework import status
-from typing import Dict
-from django.core.serializers import serialize
+from typing import Dict 
+from knox.models import AuthToken
 # Create your views here.
 
 class QuestionModelViewSet(viewsets.ModelViewSet):
@@ -61,15 +58,17 @@ class RegisterAPI(generics.GenericAPIView):
         "token": AuthToken.objects.create(user)[1]
         })
 
-class LoginAPI(KnoxLoginView):
+class LoginAPI(generics.GenericAPIView):
     permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = AuthTokenSerializer(data=request.data)
+    serializer_class = LoginUserSerializer
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        user = serializer.validated_data
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
 
 class LoggedInUser(generics.RetrieveAPIView):
   # permission_classes = [
