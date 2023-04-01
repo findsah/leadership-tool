@@ -10,9 +10,15 @@ class QuestionSerializer(serializers.ModelSerializer):
     
 
 class ResponseSerializer(serializers.ModelSerializer):
-  class Meta:
-    model=UserAnswer
-    fields='__all__'
+    class Meta:
+        model=UserAnswer
+        fields='__all__'
+    def validate(self, data):
+        if data['user_id'] < 1:
+            raise serializers.ValidationError('Value should be grater than 0')
+        if not User.objects.filter(pk=data['user_id']).exists():
+            raise serializers.ValidationError('User Id does not exist. Please provide a valid user ID')
+        return data
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
@@ -49,37 +55,4 @@ class LoginUserSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError('Incorrect Credentials Passed.')
     
-from rest_framework import serializers
-from .models import *
-from django.contrib.auth.models import User
-
-class QuestionSerializer(serializers.ModelSerializer):
-  class Meta:
-    model=Question
-    fields=['id','question_text']
-    
-
-class ResponseSerializer(serializers.ModelSerializer):
-  class Meta:
-    model=UserAnswer
-    fields='__all__'
-
-# User Serializer
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
-
-# Register Serializer
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
-
-        return user
-
-    
+ 

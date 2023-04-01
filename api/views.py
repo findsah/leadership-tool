@@ -84,7 +84,7 @@ class ProgressViewSet(viewsets.ViewSet):
       return Response(request.data)
 
   def retrieve(self, request, pk=None):
-    total_q = 30
+    total_q = 25
 
     if pk is not None:
       completed = UserAnswer.objects.filter(user_id=pk).count()
