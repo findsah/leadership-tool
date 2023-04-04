@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 
 class Question(models.Model):
+    question_id = models.SlugField(max_length=50, unique=True, default='')
     question_text = models.TextField()
     def __str__(self):
         return self.question_text
@@ -57,7 +58,7 @@ class LeadershipType(models.Model):
             ]
     name = models.CharField(max_length=50, choices=LEADERSHIP_TYPE, unique=True)
     description = RichTextUploadingField()
-    
+    image = models.ImageField(upload_to='uploads/%Y/%m/%d/', blank=True)
 
     def __str__(self):
         return self.name

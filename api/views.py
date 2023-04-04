@@ -26,25 +26,30 @@ class QuestionModelViewSet(viewsets.ModelViewSet):
   http_method_names = ['get']
 
 class ResponseModelViewSet(viewsets.ModelViewSet):
-  queryset=UserAnswer.objects.all()
-  serializer_class=ResponseSerializer
-  # authentication=[JWTAuthentication]
-  # permission_classes=[IsAuthenticated]
-
-  def create(self, request, *args, **kwargs):
-    serializer = ResponseSerializer(data=request.data)
-    if serializer.is_valid():
-      try:
-          queryset=UserAnswer.objects.get(user_id=request.data.get('user_id'), question_id=request.data.get('question'))
-      except UserAnswer.DoesNotExist:
-          queryset = None
-      if queryset:
-        queryset.answer = request.data.get('answer')
-        queryset.save()
-        return Response({'msg':'Record save Successfully','status':status.HTTP_200_OK})
-      serializer.save()
-      return Response({'msg':'Record save Successfully','data':serializer.data,'status':status.HTTP_201_CREATED})
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class=ResponseSerializer
+    # authentication=[JWTAuthentication]
+    # permission_classes=[IsAuthenticated]
+    def get_queryset(self):
+        queryset=UserAnswer.objects.all()
+        r_user_id = self.request.GET.get('user_id')
+        if r_user_id is not None:
+            queryset=UserAnswer.objects.filter(user_id=r_user_id)
+        return queryset
+    
+    def create(self, request, *args, **kwargs):
+        serializer = ResponseSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                queryset=UserAnswer.objects.get(user_id=request.data.get('user_id'), question_id=request.data.get('question'))
+            except UserAnswer.DoesNotExist:
+                queryset = None
+            if queryset:
+                queryset.answer = request.data.get('answer')
+                queryset.save()
+                return Response({'msg':'Record save Successfully','status':status.HTTP_200_OK})
+            serializer.save()
+            return Response({'msg':'Record save Successfully','data':serializer.data,'status':status.HTTP_201_CREATED})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -102,8 +107,8 @@ class CalculateLeadershipTypeViewSet(viewsets.ViewSet):
         if pk is not None:
             completed = UserAnswer.objects.filter(user_id=pk)
             if completed.count() > 0:
-                qa_dict = {ans.question.id:ans.answer for ans in completed}
-                # return Response({'data': qa_dict,'status':status.HTTP_200_OK})
+                qa_dict = {ans.question.question_id:ans.answer for ans in completed} 
+                print('qa_dict ',qa_dict)
                 leadership_type = self.calculate_leadership_type(qa_dict)
                 try:
                     get_leadership=LeadershipType.objects.get(name=leadership_type) 
@@ -124,17 +129,17 @@ class CalculateLeadershipTypeViewSet(viewsets.ViewSet):
         }
 
         for question_number, answer in answers.items():
-            if question_number in [1, 6, 10, 15, ]:
+            if question_number in ["question_1", "question_6" "question_10", "question_15"]:
                 scores['Determined Driver'] += int(answer)
-            elif question_number in [2, 3, 7, 16]:
+            elif question_number in ["question_2", "question_3", "question_7", "question_16"]:
                 scores['Methodical Specialist'] += int(answer)
-            elif question_number in [4, 8, 14, 27]:
+            elif question_number in ["question_4", "question_8", "question_14", "question_27"]:
                 scores['Careful Collaborator'] += int(answer)
-            elif question_number in [5, 9, 12, 21, 23, 25]:
+            elif question_number in ["question_5", "question_9", "question_12", "question_21", "question_23", "question_25"]:
                 scores['Collective Adventurer'] += int(answer)
-            elif question_number in [11, 17, 19, 22, 26]:
+            elif question_number in ["question_11", "question_17", "question_19", "question_22", "question_26"]:
                 scores['Intuitive Decider'] += int(answer)
-            elif question_number in [13, 18, 20, 24]:
+            elif question_number in ["question_13", "question_18", "question_20", "question_24"]:
                 scores['Culture Creator'] += int(answer)
         return max(scores, key=scores.get)
 
