@@ -42,7 +42,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LeadershipTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = LeadershipType
-        fields = ['name','description','image'] 
+        fields = ['name','description','get_image'] 
 
 
 class LoginUserSerializer(serializers.Serializer):

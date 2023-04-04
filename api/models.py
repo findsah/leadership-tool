@@ -34,11 +34,11 @@ class Segment(models.Model):
 class UserAnswer(models.Model):
     user_id = models.IntegerField()
     ANSWER_CHOICES = [
-        ('-2', 'Strongly Disagree'),
-        ('-1', 'Disagree'),
-        ('0', 'Neither Agree Nor Disagree'),
-        ('1', 'Agree'),
-        ('2', 'Strongly Agree'),
+        ('1', 'Strongly Disagree'),
+        ('2', 'Disagree'),
+        ('3', 'Neither Agree Nor Disagree'),
+        ('4', 'Agree'),
+        ('5', 'Strongly Agree'),
     ]
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=2, choices=ANSWER_CHOICES)
@@ -62,7 +62,11 @@ class LeadershipType(models.Model):
 
     def __str__(self):
         return self.name
-
+ 
+    def get_image(self):
+        if self.image:
+            return 'https://walrus-app-xqntt.ondigitalocean.app'+self.image.url
+        return ''
 
 class UserSegment(models.Model):
     user_id = models.IntegerField()

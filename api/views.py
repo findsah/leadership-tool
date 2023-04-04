@@ -108,7 +108,7 @@ class CalculateLeadershipTypeViewSet(viewsets.ViewSet):
             completed = UserAnswer.objects.filter(user_id=pk)
             if completed.count() > 0:
                 qa_dict = {ans.question.question_id:ans.answer for ans in completed} 
-                print('qa_dict ',qa_dict)
+                # print('qa_dict ',qa_dict)
                 leadership_type = self.calculate_leadership_type(qa_dict)
                 try:
                     get_leadership=LeadershipType.objects.get(name=leadership_type) 
