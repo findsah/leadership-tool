@@ -56,8 +56,16 @@ class LeadershipType(models.Model):
                 ('Determined Driver', 'Determined Driver'),
                 ('Collective Adventurer', 'Collective Adventurer'),
             ]
+            
     name = models.CharField(max_length=50, choices=LEADERSHIP_TYPE, unique=True)
-    description = RichTextUploadingField()
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField() 
+    description2 = models.TextField(blank=True)
+    description3 = models.TextField(blank=True)
+    description4 = models.TextField(blank=True)
+    description5 = models.TextField(blank=True)
+    external_links=models.TextField(blank=True, help_text='Please enter all links comma seprated')
+    # description = RichTextUploadingField()
     image = models.ImageField(upload_to='uploads/%Y/%m/%d/', blank=True)
 
     def __str__(self):
