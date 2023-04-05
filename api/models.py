@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 class Question(models.Model):
     question_id = models.SlugField(max_length=50, unique=True, default='')
@@ -64,8 +66,17 @@ class LeadershipType(models.Model):
     description3 = models.TextField(blank=True)
     description4 = models.TextField(blank=True)
     description5 = models.TextField(blank=True)
-    external_links=models.TextField(blank=True, help_text='Please enter all links comma seprated')
-    external_links_text=models.TextField(blank=True, help_text='Please enter text for the link in same order with comma seprated')
+    external_links=models.TextField(blank=True, 
+                                    help_text=mark_safe(_(
+                                    '<p><b style="color:orange">Note: </b>Please enter all links comma seprated.</p>'
+                                    ))
+                            )
+    external_links_text=models.TextField(blank=True, 
+                                         help_text = 
+                                         mark_safe(_(
+                                        '<p><b style="color:orange">Note: </b>Please enter diplay text for the links in same order(External links) with comma seprated.</p>'
+                                         ))
+                                    )
     # description = RichTextUploadingField()
     image = models.ImageField(upload_to='uploads/%Y/%m/%d/', blank=True)
 
