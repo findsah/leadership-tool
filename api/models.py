@@ -65,6 +65,7 @@ class LeadershipType(models.Model):
     description4 = models.TextField(blank=True)
     description5 = models.TextField(blank=True)
     external_links=models.TextField(blank=True, help_text='Please enter all links comma seprated')
+    external_links_text=models.TextField(blank=True, help_text='Please enter text for the link in same order with comma seprated')
     # description = RichTextUploadingField()
     image = models.ImageField(upload_to='uploads/%Y/%m/%d/', blank=True)
 
