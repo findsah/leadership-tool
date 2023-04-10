@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.urls import include, path
-from django.shortcuts import redirect
+from django.urls import include, path 
 from django.conf.urls.static import static
 from django.conf import settings
 from api import views
@@ -32,7 +31,13 @@ urlpatterns = [
     path('api/login/', LoginAPI.as_view(), name='login'),
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    path('api/v2/', include('secondtoll.urls'), name='secondtoll'),
 
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = "Leadership Toll Admin"
+admin.site.site_title = "Leadership Toll Admin Portal"
+admin.site.index_title = "Welcome to the Leadership Toll Portal"
