@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, QuestionOption, Category
+from .models import Question, QuestionOption, Category, UserAnswer
 # Register your models here.
 
 class QuestionOption_Admin(admin.TabularInline):
@@ -11,3 +11,4 @@ class Question_Admin(admin.ModelAdmin):
 admin.site.register(Question, Question_Admin)
 admin.site.register(QuestionOption)
 admin.site.register(Category)
+admin.site.register(UserAnswer)

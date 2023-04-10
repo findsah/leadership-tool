@@ -26,12 +26,12 @@ class QuestionOption(models.Model):
     def __str__(self):
         return self.question.question_text
     
-# class UserAnswer(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user') 
-#     question = models.ForeignKey(Question, related_name='question_answers')
-#     answer_test = models.CharField(max_length=100, verbose_name='Options', default='') 
-#     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
-#     updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated At') 
+class UserAnswer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_value') 
+    question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name='question')
+    answer = models.ForeignKey(QuestionOption,on_delete=models.CASCADE, related_name='answers')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated At') 
 
-#     def __str__(self):
-#         return self.question.question_text
+    def __str__(self):
+        return (self.question.question_text + self.answer.answer_test)
