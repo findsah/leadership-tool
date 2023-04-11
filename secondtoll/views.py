@@ -71,15 +71,17 @@ class ProgressAPIView(APIView):
         total_q = quesryset.count()  
         completed = UserAnswer.objects.filter(user_id=user_id)
         completed_count =completed.count()
-        last_q = completed.last().question_id 
-        per=int((completed_count*100)/total_q)
-        return Response({
-            'total_question':total_q,
-            'completed_percentage':per,
-            'completed_question':completed_count,
-            'question_left':total_q-completed_count,
-            "last_completed_question":last_q,
-            'status':status.HTTP_200_OK
-        })
+        if completed_count > 0:
+            last_q = completed.last().question_id 
+            per=int((completed_count*100)/total_q)
+            return Response({
+                'total_question':total_q,
+                'completed_percentage':per,
+                'completed_question':completed_count,
+                'question_left':total_q-completed_count,
+                "last_completed_question":last_q,
+                'status':status.HTTP_200_OK
+            })
+        return Response({'msg':'No Data found for this user','status':status.HTTP_200_OK})    
     return Response({'msg':'User id is required','status':status.HTTP_200_OK})
 
