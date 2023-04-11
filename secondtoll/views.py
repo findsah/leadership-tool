@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import QuestionSerializer, UserAnswerSerializer
-from .models import Question, UserAnswer
+from .models import Question, UserAnswer, QuestionOption
 from rest_framework.response import Response
+from django.db.models import Count
 # Create your views here.
 
 class QuestionAPI(APIView):
@@ -59,4 +60,26 @@ class SubmitAnswerAPI(APIView):
             serializer.save()
             return Response({'data':serializer.data, 'status':status.HTTP_201_CREATED})
         return Response({'data':serializer.errors, 'status':status.HTTP_400_BAD_REQUEST})
+
+class ProgressAPIView(APIView):
+  # permission_classes = [permissions.IsAuthenticated] 
+
+  def get(self, request, pk=None, format=None):
+    user_id = request.GET.get('user_id', pk)
+    if user_id:
+        quesryset = Question.objects.all()
+        total_q = quesryset.count()  
+        completed = UserAnswer.objects.filter(user_id=user_id)
+        completed_count =completed.count()
+        last_q = completed.last().question_id 
+        per=int((completed_count*100)/total_q)
+        return Response({
+            'total_question':total_q,
+            'completed_percentage':per,
+            'completed_question':completed_count,
+            'question_left':total_q-completed_count,
+            "last_completed_question":last_q,
+            'status':status.HTTP_200_OK
+        })
+    return Response({'msg':'User id is required','status':status.HTTP_200_OK})
 
