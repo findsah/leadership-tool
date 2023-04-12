@@ -21,7 +21,7 @@ class Question(models.Model):
 
 class QuestionOption(models.Model): 
     question = models.ForeignKey(Question, related_name='question_answers', on_delete=models.CASCADE, null=True)
-    answer_test = models.CharField(max_length=100, verbose_name='Options', default='')  
+    answer_test = models.CharField(max_length=500, verbose_name='Options', default='')  
 
     def __str__(self):
         return self.question.question_text
