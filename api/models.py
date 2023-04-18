@@ -61,11 +61,15 @@ class LeadershipType(models.Model):
             
     name = models.CharField(max_length=50, choices=LEADERSHIP_TYPE, unique=True)
     title = models.CharField(max_length=255, blank=True)
-    description = models.TextField() 
-    description2 = models.TextField(blank=True)
-    description3 = models.TextField(blank=True)
-    description4 = models.TextField(blank=True)
-    description5 = models.TextField(blank=True)
+    description =  RichTextUploadingField() 
+    description2 = RichTextUploadingField(blank=True)
+    description3 = RichTextUploadingField(blank=True)
+    description4 = RichTextUploadingField(blank=True)
+    description5 = RichTextUploadingField(blank=True)
+    description6 = RichTextUploadingField(blank=True)
+    description7 = RichTextUploadingField(blank=True)
+    description8 = RichTextUploadingField(blank=True)
+    description9 = RichTextUploadingField(blank=True,verbose_name=_("You Might also like")) 
     external_links=models.TextField(blank=True, 
                                     help_text=mark_safe(_(
                                     '<p><b style="color:orange">Note: </b>Please enter all links comma seprated.</p>'
