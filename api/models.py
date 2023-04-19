@@ -69,7 +69,13 @@ class LeadershipType(models.Model):
     description6 = RichTextUploadingField(blank=True)
     description7 = RichTextUploadingField(blank=True)
     description8 = RichTextUploadingField(blank=True)
-    description9 = RichTextUploadingField(blank=True,verbose_name=_("You Might also like")) 
+    description9 = RichTextUploadingField(blank=True)
+    description10 = RichTextUploadingField(blank=True)
+    description11 = RichTextUploadingField(blank=True)
+    description12 = RichTextUploadingField(blank=True)
+    description13 = RichTextUploadingField(blank=True) 
+    description14 = RichTextUploadingField(blank=True,verbose_name=_("You Might also like")) 
+    description15 = RichTextUploadingField(blank=True,verbose_name=_("You Might also like")) 
     external_links=models.TextField(blank=True, 
                                     help_text=mark_safe(_(
                                     '<p><b style="color:orange">Note: </b>Please enter all links comma seprated.</p>'
