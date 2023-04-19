@@ -105,18 +105,27 @@ class CalculateLeadershipTypeViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         if pk is not None:
-            completed = UserAnswer.objects.filter(user_id=pk)
-            if completed.count() > 0:
-                qa_dict = {ans.question.question_id:ans.answer for ans in completed} 
-                # print('qa_dict ',qa_dict)
-                leadership_type = self.calculate_leadership_type(qa_dict)
+            l_type = request.GET.get('type')
+            if l_type:
                 try:
-                    get_leadership=LeadershipType.objects.get(name=leadership_type) 
+                    get_leadership=LeadershipType.objects.get(name=l_type) 
                     leadership_data = LeadershipTypeSerializer(instance=get_leadership).data  
                 except LeadershipType.DoesNotExist:
                     leadership_data={}
                 return Response({'leadership_type':leadership_data, 'msg':'Record fetched successfully ','status':status.HTTP_200_OK})
-            return Response({'msg':'Data not available for user','status':status.HTTP_200_OK})
+            else:  
+                completed = UserAnswer.objects.filter(user_id=pk)
+                if completed.count() > 0:
+                    qa_dict = {ans.question.question_id:ans.answer for ans in completed} 
+                    # print('qa_dict ',qa_dict)
+                    leadership_type = self.calculate_leadership_type(qa_dict)
+                    try:
+                        get_leadership=LeadershipType.objects.get(name=leadership_type) 
+                        leadership_data = LeadershipTypeSerializer(instance=get_leadership).data  
+                    except LeadershipType.DoesNotExist:
+                        leadership_data={}
+                    return Response({'leadership_type':leadership_data, 'msg':'Record fetched successfully ','status':status.HTTP_200_OK})
+                return Response({'msg':'Data not available for user','status':status.HTTP_200_OK})
 
     def calculate_leadership_type(self, answers:Dict[int, int]) -> str:
         scores = {
