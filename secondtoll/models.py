@@ -13,6 +13,8 @@ class Category(models.Model):
 class Question(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     question_text = models.TextField() 
+    can_skip = models.BooleanField(default=False, verbose_name='Can skip this Questions?')
+    can_multiple_choice = models.BooleanField(default=False, verbose_name='Can select multiple options?')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated At') 
 
@@ -29,9 +31,9 @@ class QuestionOption(models.Model):
 class UserAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_value') 
     question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name='question')
-    answer = models.ForeignKey(QuestionOption,on_delete=models.CASCADE, related_name='answers')
+    answer = models.CharField(max_length=10, default='')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated At') 
 
     def __str__(self):
-        return (self.question.question_text + self.answer.answer_test)
+        return (self.question.question_text )

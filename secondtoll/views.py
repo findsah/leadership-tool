@@ -43,9 +43,7 @@ class SubmitAnswerAPI(APIView):
     
     def post(self, request, format=None): 
         serializer = UserAnswerSerializer(data=request.data) 
-        if serializer.is_valid(raise_exception=True):
-            print('USERID ', request.data['user'])
-            print('QUESTIONID ', request.data['question'])
+        if serializer.is_valid(raise_exception=True): 
             try:
                 ins = UserAnswer.objects.get(
                     user_id = serializer.validated_data.get('user'),
@@ -54,8 +52,9 @@ class SubmitAnswerAPI(APIView):
             except UserAnswer.DoesNotExist:
                 ins = None
             if ins:
-                ins.answer = serializer.validated_data.get('answer')
-                ins.save()
+                if ins.answer != serializer.validated_data.get('answer'):
+                    ins.answer = serializer.validated_data.get('answer')
+                    ins.save()
                 return Response({'msg':'Record save Successfully', 'data':serializer.data,'status':status.HTTP_200_OK})
             serializer.save()
             return Response({'data':serializer.data, 'status':status.HTTP_201_CREATED})

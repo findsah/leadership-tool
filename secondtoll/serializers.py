@@ -11,7 +11,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     question_answers=QuestionOptionSerializer(many=True, read_only=True)
     class Meta:
         model=Question
-        fields=['id','question_text','question_answers']
+        fields=['id','question_text','can_skip','can_multiple_choice','question_answers']
 
 
 class UserAnswerSerializer(serializers.ModelSerializer):
